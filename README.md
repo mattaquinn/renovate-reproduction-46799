@@ -37,9 +37,44 @@ Run Renovate with debug logging against this repository. `--dry-run=full` still 
 
 ```bash
 export LOG_LEVEL=debug
-export RENOVATE_TOKEN=<token with read access>
-npx renovate@44.149.0 --platform=github --dry-run=full <owner>/<this-repository> 2>&1 | tee renovate.log
-grep -A 12 'Git operations statistics' renovate.log
+export RENOVATE_TOKEN='*******'
+npx renovate@44.133.0 --platform=github --dry-run=full mattaquinn/renovate-reproduction-46799 2>&1 | tee renovate.log
+grep -A 30 'Git operations statistics' renovate.log
+
+Grep Output:
+
+DEBUG: Git operations statistics (repository=mattaquinn/renovate-reproduction-46799)
+       "other": {
+         "count": 223,
+         "avgMs": 105,
+         "medianMs": 100.14336,
+         "maxMs": 280.411648,
+         "totalMs": 23308
+       },
+       "clone": {
+         "count": 1,
+         "avgMs": 833,
+         "medianMs": 832.984064,
+         "maxMs": 832.984064,
+         "totalMs": 833
+       },
+       "checkout": {
+         "count": 5,
+         "avgMs": 118,
+         "medianMs": 113.764096,
+         "maxMs": 140.554496,
+         "totalMs": 592
+       },
+       "reset": {
+         "count": 5,
+         "avgMs": 114,
+         "medianMs": 113.889024,
+         "maxMs": 115.827968,
+         "totalMs": 571
+       }
+ INFO: Repository finished (repository=mattaquinn/renovate-reproduction-46799)
+       "cloned": true,
+
 ```
 
 Look at the `other` bucket. `git show` is not tracked separately, so it is counted there.
